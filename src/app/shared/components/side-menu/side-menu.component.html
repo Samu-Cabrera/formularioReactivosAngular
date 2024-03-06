@@ -1,0 +1,27 @@
+<h3 class="mt-2">
+    Formularios reactivos
+</h3>
+
+<ul class="list-group">
+    <li 
+        *ngFor="let item of sideMenuItem"
+        class="list-group-item"
+        [routerLink]="item.route"
+        routerLinkActive="active">
+        {{ item.title }}
+    </li>
+</ul>
+
+<h3 class="mt-2">
+    Validaciones
+</h3>
+
+<ul class="list-group">
+    <li 
+        *ngFor="let auth of authMenu"
+        class="list-group-item"
+        [routerLink]="auth.route"
+        routerLinkActive="active">
+        {{ auth.title }}
+    </li>
+</ul>
