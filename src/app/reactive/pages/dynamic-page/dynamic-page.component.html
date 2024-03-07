@@ -1,16 +1,21 @@
 <h2>Reactivos: <small> Dinámicos </small></h2>
 <hr>
 
-<form autocomplete="off">
+<form
+    [formGroup]="dynamicForm"
+    (ngSubmit)="onSubmit()"
+    autocomplete="off">
 
     <!-- Nombre -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Nombre</label>
         <div class="col-sm-9">
             <input class="form-control"
-                   placeholder="Nombre de la persona">
-            <span class="form-text text-danger">
-                   error message
+                   placeholder="Nombre de la persona"
+                   formControlName="name">
+            <span *ngIf="isValidField"
+                class="form-text text-danger">
+                   {{ getFieldError('name') }}
             </span>
         </div>
     </div>
@@ -18,18 +23,28 @@
     <!-- Agregar Favorito -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Agregar</label>
-        <div class="col-sm-9">
+        <div class="col-sm-9" formArrayName="favoritos">
 
-            <div class="input-group">
-                <input class="form-control"
-                       placeholder="Agregar favorito">
+            <div *ngFor="let favorito of favoritosArr.controls; let i = index"
+                class="mt-2">
+                <div class="input-group">
+                    <input class="form-control"
+                           placeholder="Agregar favorito"
+                           [formControlName]="i">
+    
+    
+                    <button class="btn btn-outline-primary"
+                            type="button">
+                        Agregar favorito
+                    </button>
+                </div>
 
-
-                <button class="btn btn-outline-primary"
-                        type="button">
-                    Agregar favorito
-                </button>
+                <span *ngIf="isValidFieldInArray(favoritosArr, i)"
+                    class="form-text text-danger">
+                    Este campo es requerido
+                </span>
             </div>
+
         </div>
     </div>
 
@@ -37,19 +52,24 @@
     <!-- Lista de Juegos Favoritos -->
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label">Favoritos</label>
-        <div class="col-sm-9">
+        <div class="col-sm-9" formArrayName="favoritos"campo>
 
-            <div class="mb-1">
+            <div *ngFor="let favorito of favoritosArr.controls; let i = index" 
+                class="mb-1" >
 
                 <div class="input-group">
-                    <input class="form-control">
+                    <input [formControlName]="i"
+                        class="form-control">
 
-                    <button class="btn btn-outline-danger"
-                            type="button">
+                    <button
+                        (click)="onDelete(i)"
+                        class="btn btn-outline-danger"
+                        type="button">
                       Eliminar
                   </button>
                 </div>
-                <span class="form-text text-danger">
+                <span *ngIf="isValidFieldInArray(favoritosArr, i)"
+                    class="form-text text-danger">
                    Este campo es requerido
                 </span>
 
